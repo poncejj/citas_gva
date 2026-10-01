@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '*/5 * * * *'   # cada 5 minutos (mínimo permitido; puede retrasarse)
   workflow_dispatch:         # ejecución manual desde la pestaña Actions
+    inputs:
+      test:
+        description: 'Enviar mensaje de prueba a Telegram aunque no haya citas'
+        type: boolean
+        default: false
 
 jobs:
   check:
@@ -23,4 +28,5 @@ jobs:
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
           CENTER_ID: ${{ vars.CENTER_ID }}
           SERVICE_ID: ${{ vars.SERVICE_ID }}
+          TEST: ${{ inputs.test && '1' || '' }}
         run: php index.php
