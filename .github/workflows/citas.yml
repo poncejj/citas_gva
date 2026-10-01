@@ -9,6 +9,12 @@ on:
         description: 'Enviar mensaje de prueba a Telegram aunque no haya citas'
         type: boolean
         default: false
+      center_id:
+        description: 'CENTER_ID (opcional; por defecto la variable del repo)'
+        type: string
+      service_id:
+        description: 'SERVICE_ID (opcional; por defecto la variable del repo)'
+        type: string
 
 jobs:
   check:
@@ -26,7 +32,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
-          CENTER_ID: ${{ vars.CENTER_ID }}
-          SERVICE_ID: ${{ vars.SERVICE_ID }}
+          CENTER_ID: ${{ inputs.center_id || vars.CENTER_ID }}
+          SERVICE_ID: ${{ inputs.service_id || vars.SERVICE_ID }}
           TEST: ${{ inputs.test && '1' || '' }}
         run: php index.php
